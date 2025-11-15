@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Survei</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #555;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .chart-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+        }
+
+        .chart-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #059669;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .insights {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+        }
+
+        .insights h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #059669;
+        }
+
+        .insight-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            border-radius: 10px;
+            border-left: 4px solid #059669;
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 1.05em;
+        }
+
+        .insight-text {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .rating-bars {
+            margin: 20px 0;
+        }
+
+        .rating-item {
+            margin-bottom: 15px;
+        }
+
+        .rating-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .rating-bar-container {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rating-bar {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            transition: width 1s ease;
+            border-radius: 10px;
+        }
+
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hasil Survei Kepuasan</h1>
+            <p>Analisis Lengkap dari 142 Responden</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">142</div>
+                <div class="stat-label">Total Responden</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3.9</div>
+                <div class="stat-label">Rata-rata Nilai</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">76.7%</div>
+                <div class="stat-label">Tingkat Kepuasan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">9.1%</div>
+                <div class="stat-label">Perlu Perbaikan</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Distribusi Penilaian</h2>
+            <div class="rating-bars">
+                <div class="rating-item">
+                    <div class="rating-label">
+                        <span>1 - Sangat Buruk</span>
+                        <span>2 responden (1.4%)</span>
+                    </div>
+                    <div class="rating-bar-container">
+                        <div class="rating-bar"
+                            style="width: 1.4%; background: linear-gradient(90deg, #10b981, #059669);">
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-item">
+                    <div class="rating-label">
+                        <span>2 - Buruk</span>
+                        <span>11 responden (7.7%)</span>
+                    </div>
+                    <div class="rating-bar-container">
+                        <div class="rating-bar"
+                            style="width: 7.7%; background: linear-gradient(90deg, #059669, #047857);">
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-item">
+                    <div class="rating-label">
+                        <span>3 - Cukup</span>
+                        <span>20 responden (14.1%)</span>
+                    </div>
+                    <div class="rating-bar-container">
+                        <div class="rating-bar"
+                            style="width: 14.1%; background: linear-gradient(90deg, #047857, #065f46);">
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-item">
+                    <div class="rating-label">
+                        <span>4 - Baik</span>
+                        <span>56 responden (39.4%)</span>
+                    </div>
+                    <div class="rating-bar-container">
+                        <div class="rating-bar"
+                            style="width: 39.4%; background: linear-gradient(90deg, #065f46, #064e3b);">
+                            39.4%
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-item">
+                    <div class="rating-label">
+                        <span>5 - Sangat Baik</span>
+                        <span>53 responden (37.3%)</span>
+                    </div>
+                    <div class="rating-bar-container">
+                        <div class="rating-bar"
+                            style="width: 37.3%; background: linear-gradient(90deg, #064e3b, #042f2e);">
+                            37.3%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Grafik Visual</h2>
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Persentase Kepuasan</h2>
+            <div class="chart-container">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+        <div class="insights">
+            <h2>Wawasan Utama</h2>
+            <div class="insight-item">
+                <div class="insight-title">Tingkat Kepuasan Tinggi</div>
+                <div class="insight-text">Lebih dari tiga perempat responden (76.7%) memberikan nilai 4 atau 5,
+                    menunjukkan kepuasan yang sangat baik terhadap layanan atau produk yang disurvei.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">Keseimbangan Penilaian Positif</div>
+                <div class="insight-text">Nilai 4 dan 5 hampir seimbang (39.4% vs 37.3%), menunjukkan kepuasan yang
+                    konsisten tanpa polarisasi ekstrem.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">Ketidakpuasan Minimal</div>
+                <div class="insight-text">Hanya 9.1% responden memberikan nilai 1 atau 2, dengan hanya 1.4% memberikan
+                    nilai terendah. Ini menunjukkan sangat sedikit masalah kritis yang perlu ditangani.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">Area Netral Terbatas</div>
+                <div class="insight-text">Sebanyak 14.1% memberikan penilaian netral (3), yang relatif rendah dan
+                    menunjukkan sebagian besar responden memiliki pendapat yang jelas.</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-title">Skor Rata-rata Kuat</div>
+                <div class="insight-text">Nilai rata-rata 3.9 dari 5 mencerminkan performa yang solid dengan ruang yang
+                    signifikan untuk mengkonversi responden netral dan puas menjadi sangat puas.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            labels: ['1 - Sangat Buruk', '2 - Buruk', '3 - Cukup', '4 - Baik', '5 - Sangat Baik'],
+            counts: [2, 11, 20, 56, 53],
+            percentages: [1.4, 7.7, 14.1, 39.4, 37.3]
+        };
+
+        const colors = {
+            gradient: ['#10b981', '#059669', '#047857', '#065f46', '#064e3b']
+        };
+
+        // Bar Chart
+        const barCtx = document.getElementById('mainChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Jumlah Responden',
+                    data: data.counts,
+                    backgroundColor: colors.gradient,
+                    borderRadius: 8,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.parsed.y} responden (${data.percentages[context.dataIndex]}%)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 10
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.counts,
+                    backgroundColor: colors.gradient,
+                    borderWidth: 3,
+                    borderColor: '#fff',
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.parsed} responden (${data.percentages[context.dataIndex]}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Animate bars on load
+        window.addEventListener('load', function () {
+            const bars = document.querySelectorAll('.rating-bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.transition = 'width 1s ease';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+
+</html>
